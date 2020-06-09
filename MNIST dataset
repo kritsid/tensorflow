@@ -1,0 +1,618 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "deeplearning workshop.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyNOs3ZyvLF0Bkm/YRxcDlx7",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/kritsid/tensorflow/blob/master/MNIST%20dataset\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "EVumDo3GKD_N",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#tensorflow-(css)\n",
+        "#keras - high level api of tensorflow*(bootstrap)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tuZEzAN0QJs7",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import keras\n",
+        "from keras.datasets import mnist"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Mqu91uN4QiHS",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#it has 6000 images for training and 10000 images for test set\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4CGTWutAQpmp",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "mnist.load_data?"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "UDI2xlJjQt4z",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "(x_train, y_train), (x_test, y_test)= mnist.load_data()"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "SQJmTuAjQ63q",
+        "colab_type": "code",
+        "outputId": "d3a15f4b-347a-45cf-ed85-a01d471471e1",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "x_train.shape#dimensions of image are 28 by 28...this is matrix of 60000,28,28"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(60000, 28, 28)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 41
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "gNOkgoG_RszK",
+        "colab_type": "text"
+      },
+      "source": [
+        "thiss is 28 28 bcoz these are black and white images. if they had been coloured, it could have been 3d"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "fw6bTxtbRHu7",
+        "colab_type": "code",
+        "outputId": "6b4ffe31-eba2-4c66-8a25-1cc762e69d36",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "y_train.shape#one output for eah image..y_train is a vecor and not an image..tis is output of each mage"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(60000,)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 42
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-iqYOvmoUFTX",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5p0awXuSR8HG",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "def plot_image(img):\n",
+        "  img = img.reshape(28,28)\n",
+        "  plt.imshow(img,cmap=\"gray\")\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MdnS-AhwT8kh",
+        "colab_type": "text"
+      },
+      "source": [
+        ""
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "fqTklRwbTYZG",
+        "colab_type": "text"
+      },
+      "source": [
+        "v  #this is a function to reshape the shape to desired size if dim are different\n",
+        "  # cmap is colour scheme to be given"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qYZh26xKS0vP",
+        "colab_type": "code",
+        "outputId": "de3bc2ae-96a5-477c-e265-fc313abc6fef",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 265
+        }
+      },
+      "source": [
+        "plot_image(x_train[62])"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "NuKZ3mYvS5DW",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "# if we do not pass cmap random colours would be assigned to the image..u can try that"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-LTtUSORWNxW",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "x_train = x_train.reshape(60000,784)\n",
+        "x_test = x_test.reshape(10000,784)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "K5tPvbEbaQg_",
+        "colab_type": "code",
+        "outputId": "ca0822a2-488d-4230-c1c1-bf1769696e90",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "y_train.shape#"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(60000,)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 48
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9tAtl58vWggz",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from keras.utils import to_categorical\n",
+        "y_train = to_categorical(y_train)\n",
+        "y_test = to_categorical(y_test)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ki_XM0v2an5e",
+        "colab_type": "text"
+      },
+      "source": [
+        "u can see shape of y has been changed\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "40poLH_5aNrT",
+        "colab_type": "code",
+        "outputId": "2768f9f2-cd98-4072-ae24-a0891647dce1",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "y_train.shape"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(60000, 10)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 50
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "gvL5wmHCZaKv",
+        "colab_type": "text"
+      },
+      "source": [
+        "one hot encoder/to-categorical:\n",
+        "\n",
+        "\n",
+        "> Indented block\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bbztgF7MUVSc",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "from keras.models import Sequential\n",
+        "from keras.layers import Dense"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pXqVXeMwUdMW",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "model = Sequential()#ann is a sequential model ouput of 1 ayer is input of other layer\n",
+        "#object of sequential is created\n",
+        "#dense layer means \n",
+        "model.add(Dense(units = 32,activation ='relu',input_shape = (784,)))#to add first dense layer\n",
+        "model.add(Dense(units = 64,activation='relu',))\n",
+        "model.add(Dense(units = 128,activation='relu',))\n",
+        "model.add(Dense(units = 32,activation='relu',))\n",
+        "model.add(Dense(units = 10,activation='softmax',))#output layer..we have taken 10 neurons for output from 0 to 9\n",
+        "#softmax and sigmoid are generally used for output layer\n",
+        "#for 2 outputs like yes or no,male/female we use sigmoid fn\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9AaCpZ8sVUen",
+        "colab_type": "text"
+      },
+      "source": [
+        "units is no. of neurons in a layer\n",
+        "60000 , 28 , 28 is not understood by neural network as they dont accept matrix\n",
+        "\n",
+        " we have to convert it to  a vector ie flatted the data.28*28 = 784\n",
+        " for flatteing first use reshape func"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "HWp14yrdXYnF",
+        "colab_type": "code",
+        "outputId": "bd98fb1e-f3ee-41bd-d59e-67f9216c826c",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 323
+        }
+      },
+      "source": [
+        "model.summary()"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Model: \"sequential_4\"\n",
+            "_________________________________________________________________\n",
+            "Layer (type)                 Output Shape              Param #   \n",
+            "=================================================================\n",
+            "dense_10 (Dense)             (None, 32)                25120     \n",
+            "_________________________________________________________________\n",
+            "dense_11 (Dense)             (None, 64)                2112      \n",
+            "_________________________________________________________________\n",
+            "dense_12 (Dense)             (None, 128)               8320      \n",
+            "_________________________________________________________________\n",
+            "dense_13 (Dense)             (None, 32)                4128      \n",
+            "_________________________________________________________________\n",
+            "dense_14 (Dense)             (None, 10)                330       \n",
+            "=================================================================\n",
+            "Total params: 40,010\n",
+            "Trainable params: 40,010\n",
+            "Non-trainable params: 0\n",
+            "_________________________________________________________________\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "kn4-bIBfa_qd",
+        "colab_type": "text"
+      },
+      "source": [
+        ""
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bVGhvXRPbAK6",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "model.compile(optimizer=\"adam\",loss=\"categorical_crossentropy\",metrics=['accuracy'])"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "fzeFx8ViawzQ",
+        "colab_type": "code",
+        "outputId": "4128c57b-e595-414a-b1ec-a7c2aeb36e21",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 411
+        }
+      },
+      "source": [
+        "model.fit(x=x_train,y = y_train,epochs = 10, validation_data=(x_test,y_test))"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Train on 60000 samples, validate on 10000 samples\n",
+            "Epoch 1/10\n",
+            "60000/60000 [==============================] - 4s 64us/step - loss: 0.8145 - accuracy: 0.8038 - val_loss: 0.3178 - val_accuracy: 0.9073\n",
+            "Epoch 2/10\n",
+            "60000/60000 [==============================] - 3s 57us/step - loss: 0.2817 - accuracy: 0.9198 - val_loss: 0.2576 - val_accuracy: 0.9275\n",
+            "Epoch 3/10\n",
+            "60000/60000 [==============================] - 4s 59us/step - loss: 0.2164 - accuracy: 0.9382 - val_loss: 0.2193 - val_accuracy: 0.9409\n",
+            "Epoch 4/10\n",
+            "60000/60000 [==============================] - 3s 57us/step - loss: 0.1791 - accuracy: 0.9499 - val_loss: 0.2060 - val_accuracy: 0.9415\n",
+            "Epoch 5/10\n",
+            "60000/60000 [==============================] - 3s 58us/step - loss: 0.1572 - accuracy: 0.9560 - val_loss: 0.1674 - val_accuracy: 0.9561\n",
+            "Epoch 6/10\n",
+            "60000/60000 [==============================] - 3s 57us/step - loss: 0.1397 - accuracy: 0.9606 - val_loss: 0.2095 - val_accuracy: 0.9442\n",
+            "Epoch 7/10\n",
+            "60000/60000 [==============================] - 3s 57us/step - loss: 0.1276 - accuracy: 0.9632 - val_loss: 0.1447 - val_accuracy: 0.9622\n",
+            "Epoch 8/10\n",
+            "60000/60000 [==============================] - 3s 57us/step - loss: 0.1154 - accuracy: 0.9676 - val_loss: 0.1462 - val_accuracy: 0.9632\n",
+            "Epoch 9/10\n",
+            "60000/60000 [==============================] - 3s 57us/step - loss: 0.1115 - accuracy: 0.9685 - val_loss: 0.1738 - val_accuracy: 0.9537\n",
+            "Epoch 10/10\n",
+            "60000/60000 [==============================] - 4s 58us/step - loss: 0.1015 - accuracy: 0.9704 - val_loss: 0.1322 - val_accuracy: 0.9662\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<keras.callbacks.callbacks.History at 0x7f400ab55be0>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 55
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZNWiZVTbcBQN",
+        "colab_type": "code",
+        "outputId": "d9808fff-ca5e-4ea6-b348-0ee41a02dc3e",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 265
+        }
+      },
+      "source": [
+        "plot_image(x_test[640])"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XHjY-1z5bc-C",
+        "colab_type": "code",
+        "outputId": "d41dc8d5-fecf-4f8b-e1bb-c9670c9d1fef",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "model.predict_classes(x_test[640].reshape(1,784))"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 60
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "x_g0IaQpb7Ff",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    }
+  ]
+}
